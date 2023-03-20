@@ -15,6 +15,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Custom:
+    'datesConsult.app_auth',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +59,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dates_consult',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': '1123QwER',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -97,3 +100,6 @@ STATICFILES_DIRS = (
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# User model:
+AUTH_USER_MODEL = 'app_auth.CustomUser'
