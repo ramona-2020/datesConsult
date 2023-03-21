@@ -4,4 +4,5 @@ from datesConsult.app_auth.views import *
 
 urlpatterns = [
     path('', homepage, name='homepages'),
+    path('contact/', contact, name='contact'),
 ]

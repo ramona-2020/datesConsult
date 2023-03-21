@@ -16,6 +16,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third party libraries:
+    'channels',
+
     # Custom:
     'datesConsult.app_auth',
 ]
