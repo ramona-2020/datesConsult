@@ -1,5 +1,3 @@
-from importlib.resources import _
-
 from django.contrib.auth import models as auth_models
 from django.db import models
 from django.utils import timezone
@@ -8,7 +6,7 @@ from datesConsult.managers import CustomUserManager
 
 
 class CustomUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
-    email = models.EmailField(_("email address"), unique=True)
+    email = models.EmailField("email address", unique=True)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -27,5 +25,13 @@ class CustomUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
         return self.email
 
     class Meta:
-        verbose_name = _("user")
-        verbose_name_plural = _("users")
+        verbose_name = "user"
+        verbose_name_plural = "users"
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name

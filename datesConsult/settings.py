@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,6 +52,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'dataConsult.asgi.application'
 WSGI_APPLICATION = 'datesConsult.wsgi.application'
 
 
@@ -106,3 +108,33 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User model:
 AUTH_USER_MODEL = 'app_auth.CustomUser'
+
+# Mailtrap settings
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '05723b4b5b62ff'
+EMAIL_HOST_PASSWORD = 'ea571a165f1452'
+EMAIL_PORT = '2525'
+
+
+# Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_TIMEZONE = "Europe/Sofia"
+
+# scheduler configuration
+# Always start the celery worker before starting beats
+# run:  celery -A datesConsult beat -l info
+from celery.schedules import crontab
+
+# scheduler configuration
+# https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html
+CELERY_BEAT_SCHEDULE = {
+    'Task_one_schedule' : {  # whatever the name you want
+        'task': 'datesConsult.tasks.send_email_task', # {app_name}.tasks.{task_name}
+        'schedule': crontab(hour=7, minute=30, day_of_week=1), # Executes every Monday morning at 7:30 a.m.
+        'args': ('New offer', 'Message one',  'admin@company.com', ['test@abv.bg']), # arguments for the task
+        'options': {
+            'expires': 30.0, # if it's not able to run this task within 15 seconds, to just cancel it
+        },
+    },
+}

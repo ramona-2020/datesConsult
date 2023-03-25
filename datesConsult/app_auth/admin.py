@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
+from datesConsult.app_auth.models import Contact
 from datesConsult.forms.app_auth_forms import *
 
 UserModel = get_user_model()
@@ -26,3 +27,7 @@ class CustomUserAdmin(UserAdmin):
     )
     search_fields = ("email",)
     ordering = ("email",)
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    pass
