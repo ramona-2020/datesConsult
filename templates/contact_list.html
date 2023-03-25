@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block page_content %}
+   <table class="table caption-top mtb-3" id="users">
+        <caption>List of users</caption>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+    </table>
+
+    <form method="get">
+        {% csrf_token %}
+        <button class="btn btn-primary" id="submit">Send</button>
+    </form>
+    <div class="alert alert-success mt-3" role="alert" id="alert-success" style="display: none;">
+        Emails have been sent successfully
+    </div>
+
+    <button id="load" class="btn-outline-primary btn">Load Contacts</button>
+
+    <h3 class="mt-3 mb-3">Add new contact</h3>
+    <form class="form-inline" id="contact_form" role="form" method="post" action="{% url 'contacts_list' %}">
+       <div class="form-group">
+          <label for="name">Name</label>
+          <input type="name" class="form-control" id="name"  name="name" placeholder="Enter name">
+       </div>
+       <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+      </div>
+        <div class="form-group">
+             <label for="message">Message</label>
+            <textarea class="form-control" id="message" name="message" placeholder="Enter message">
+            </textarea>
+        </div>
+        {% csrf_token %}
+       <button class="btn btn-outline-primary">Add Contact</button>
+    </form>
+    <div class="alert alert-success mt-3" role="alert" id="contact-create-success" style="display: none;">
+        Contact created successfully.
+    </div>
+{% endblock %}
+
+{% block scripts_block %}
+<script type="text/javascript">
+
+const my_url = "{% url 'contacts' %}";
+const load = document.getElementById('load');
+
+load.addEventListener('click', (e) =>{
+    e.preventDefault();
+    getContacts(my_url);
+});
+
+const form = document.getElementById('contact_form');
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value,
+        csrfmiddlewaretoken: document.querySelector('input[name="csrfmiddlewaretoken"]').value,
+    }
+    createContact(my_url, data);
+    getContacts(my_url);
+});
+
+
+</script>
+
+{% endblock %}
